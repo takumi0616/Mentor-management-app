@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_08_17_164711) do
+ActiveRecord::Schema.define(version: 2023_08_18_153244) do
+
+  create_table "mentorships", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.integer "mentor_id"
+    t.integer "mentee_id"
+    t.string "status"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["mentee_id"], name: "index_mentorships_on_mentee_id"
+    t.index ["mentor_id"], name: "index_mentorships_on_mentor_id"
+  end
 
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "provider", default: "email", null: false

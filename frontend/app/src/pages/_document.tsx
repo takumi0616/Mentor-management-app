@@ -1,10 +1,11 @@
-import { Html, Main, NextScript } from 'next/document'
-import Header from 'components/header'
+import { Html, Head, Main, NextScript } from 'next/document'
+import Header from 'components/header/'
 
 export default function Document() {
   return (
     <Html lang="en">
-      <Header />
+      <Header/>
+      <Head />
       <body>
         <Main />
         <NextScript />

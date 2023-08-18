@@ -14,7 +14,7 @@ import {
   Typography,
 } from "@mui/material/";
 import axios from "axios";
-import  Link  from "next/link"; // Next.js の Link コンポーネントをインポート
+import Link from "next/link"; // Next.js の Link コンポーネントをインポート
 
 const SignUp = () => {
   const router = useRouter();
@@ -37,26 +37,41 @@ const SignUp = () => {
         "content-type": "application/json",
       },
     });
+
     (async () => {
       setIsError(false);
       setErrorMessage("");
-      return await axiosInstance
+      await axiosInstance
         .post("auth", {
-            registration: {
-                email: data.get("email"),
-                password: data.get("password"),
-                password_confirmation: data.get("password_confirmation"),
-                role: data.get("role"),
-            },
+          registration: {
+            email: data.get("email"),
+            password: data.get("password"),
+            password_confirmation: data.get("password_confirmation"),
+            role: data.get("role"),
+          },
         })
-        .then(function (response) {
+        .then(async function (response) {
           console.log(response.data);
-          router.push("/login");
-        })
-        .catch(function (error) {
-          setIsError(true);
-          setErrorMessage(error.response.data.errors.full_messages[0]);
-        });
+          if (role === "mentee") {
+            const menteeId = response.data.data.id; // サーバーから返されたmenteeのID
+
+            await axiosInstance
+            .post("mentorships", {
+                mentorship: {
+                    mentee_id: menteeId,
+                }
+            })
+            .then(function () {
+                // mentorshipの登録が成功した場合のみログインページへリダイレクト
+                if (!isError) router.push("/login");
+            })
+            .catch(function (error) {
+                setIsError(true);
+                setErrorMessage("Mentorship registration failed: " + error.response.data.errors.full_messages[0]);
+            });
+          }
+        }
+        )
     })();
   };
 
@@ -67,20 +82,8 @@ const SignUp = () => {
           サインアップ
         </Typography>
         <Box component="form" onSubmit={handleSubmit}>
-          <TextField
-            id="email"
-            label="メールアドレス"
-            name="email"
-            autoComplete="email"
-            autoFocus
-          />
-          <TextField
-            name="password"
-            label="パスワード"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-          />
+          <TextField id="email" label="メールアドレス" name="email" autoComplete="email" autoFocus />
+          <TextField name="password" label="パスワード" type="password" id="password" autoComplete="current-password" />
           <TextField
             name="password_confirmation"
             label="パスワードの確認"
@@ -90,22 +93,12 @@ const SignUp = () => {
           />
           <FormControl fullWidth variant="outlined" sx={{ mt: 2 }}>
             <InputLabel id="role-label">役割</InputLabel>
-            <Select
-              labelId="role-label"
-              id="role"
-              value={role}
-              onChange={handleRoleChange}
-              label="役割"
-            >
+            <Select labelId="role-label" id="role" value={role} onChange={handleRoleChange} label="役割">
               <MenuItem value={"mentor"}>メンター</MenuItem>
               <MenuItem value={"mentee"}>メンティー</MenuItem>
             </Select>
           </FormControl>
-          <Button
-            type="submit"
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-          >
+          <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
             サインアップ
           </Button>
           <Link href="/login" passHref>
