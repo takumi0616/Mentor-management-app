@@ -1,0 +1,131 @@
+import React, { useState } from "react";
+import { useRouter } from "next/router";
+import {
+  Alert,
+  Box,
+  Button,
+  Container,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  TextField,
+  Typography,
+} from "@mui/material/";
+import axios from "axios";
+import  Link  from "next/link"; // Next.js の Link コンポーネントをインポート
+
+const SignUp = () => {
+  const router = useRouter();
+  const [isError, setIsError] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [role, setRole] = useState<string>("");
+
+  const handleRoleChange = (event: SelectChangeEvent<string>) => {
+    setRole(event.target.value);
+  };
+
+  const handleSubmit = (event: { preventDefault: () => void; currentTarget: HTMLFormElement | undefined; }) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    data.append("role", role);
+    const apiUrl_2 = process.env.API_URI_2;
+    const axiosInstance = axios.create({
+      baseURL: apiUrl_2 + `/api/v1/`,
+      headers: {
+        "content-type": "application/json",
+      },
+    });
+    (async () => {
+      setIsError(false);
+      setErrorMessage("");
+      return await axiosInstance
+        .post("auth", {
+            registration: {
+                email: data.get("email"),
+                password: data.get("password"),
+                password_confirmation: data.get("password_confirmation"),
+                role: data.get("role"),
+            },
+        })
+        .then(function (response) {
+          console.log(response.data);
+          router.push("/login");
+        })
+        .catch(function (error) {
+          setIsError(true);
+          setErrorMessage(error.response.data.errors.full_messages[0]);
+        });
+    })();
+  };
+
+  return (
+    <Container component="main" maxWidth="xs">
+      <Box>
+        <Typography component="h1" variant="h5">
+          サインアップ
+        </Typography>
+        <Box component="form" onSubmit={handleSubmit}>
+          <TextField
+            id="email"
+            label="メールアドレス"
+            name="email"
+            autoComplete="email"
+            autoFocus
+          />
+          <TextField
+            name="password"
+            label="パスワード"
+            type="password"
+            id="password"
+            autoComplete="current-password"
+          />
+          <TextField
+            name="password_confirmation"
+            label="パスワードの確認"
+            type="password"
+            id="password_confirmation"
+            autoComplete="current-password"
+          />
+          <FormControl fullWidth variant="outlined" sx={{ mt: 2 }}>
+            <InputLabel id="role-label">役割</InputLabel>
+            <Select
+              labelId="role-label"
+              id="role"
+              value={role}
+              onChange={handleRoleChange}
+              label="役割"
+            >
+              <MenuItem value={"mentor"}>メンター</MenuItem>
+              <MenuItem value={"mentee"}>メンティー</MenuItem>
+            </Select>
+          </FormControl>
+          <Button
+            type="submit"
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+          >
+            サインアップ
+          </Button>
+          <Link href="/login" passHref>
+            <Button variant="text">戻る</Button>
+          </Link>
+          {isError ? (
+            <Alert
+              onClose={() => {
+                setIsError(false);
+                setErrorMessage("");
+              }}
+              severity="error"
+            >
+              {errorMessage}
+            </Alert>
+          ) : null}
+        </Box>
+      </Box>
+    </Container>
+  );
+};
+
+export default SignUp;

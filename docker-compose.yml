@@ -42,9 +42,9 @@ services:
       - "8000:3000"
     stdin_open: true
     tty: true
-    # environment:
-    #   - API_URI_1=${API_URI_1}
-    #   - API_URI_2=${API_URI_2}
+    environment:
+      - API_URI_1=${API_URI_1}
+      - API_URI_2=${API_URI_2}
         
 volumes:
   mysql-data:

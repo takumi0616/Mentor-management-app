@@ -1,0 +1,20 @@
+/* Header.module.css */
+
+.header {
+    background-color: #f0f4f8; /* パステルブルー */
+    padding: 10px 0;
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.1);
+}
+  
+.container {
+    max-width: 1200px;
+    margin: 0 2rem; /* ここで左右のマージンを2remに設定 */
+    text-align: center;
+}
+  
+.title {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #333;
+}
+  
