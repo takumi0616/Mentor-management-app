@@ -49,8 +49,8 @@ const Mentor = () => {
         setMenteeEmail(data.mentee_email);
       } else { 
         console.error("メンティーのemailを取得できませんでした");
-        // localStorage.removeItem("email"); // emailの削除
-        // router.push("/login"); 
+        localStorage.removeItem("email"); // emailの削除
+        router.push("/login"); 
       }
     } catch (error){
       console.error("menteeのemailが取得できませんでした", error);
