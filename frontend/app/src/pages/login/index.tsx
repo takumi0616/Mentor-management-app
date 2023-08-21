@@ -43,6 +43,7 @@ const Login = () => {
           Cookies.set("uid", response.headers["uid"]);
           Cookies.set("client", response.headers["client"]);
           Cookies.set("access-token", response.headers["access-token"]);
+          localStorage.setItem("id", response.data.data.id);
           localStorage.setItem("email", response.data.data.email); // メールアドレスをlocal storageに保存
           // adminとmentorのroleに基づいて異なるページにリダイレクト
           if (response.data.data.admin === true) {

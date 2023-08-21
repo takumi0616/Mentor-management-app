@@ -1,4 +1,3 @@
 FROM node:18.16.0
 # コンテナ内で作業するディレクトリを指定
 WORKDIR /usr/src/app
-ENV API_URL='http://localhost:3000'

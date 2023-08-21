@@ -1,4 +1,9 @@
 class Api::V1::MentorshipsController < ApplicationController
+  def index
+    mentorship = Mentorship.all
+    render json: mentorship
+  end
+
   # 未割り当てのmentee_idを取得
   def unassigned_mentees
     unassigned_mentees = Mentorship.where(mentor_id: nil)
@@ -33,6 +38,17 @@ class Api::V1::MentorshipsController < ApplicationController
       render json: mentorship.errors, status: :unprocessable_entity
     end
   end
+
+  def get_mentee_by_mentor
+    mentorship = Mentorship.find_by(mentor_id: params[:id])
+    if mentorship
+      mentee_id = mentorship.mentee_id
+      render json: { mentee_id: mentee_id }
+    else
+      render json: { error: "No mentorship found for the specified mentor" }, status: :not_found
+    end
+  end
+
 
   private
 
