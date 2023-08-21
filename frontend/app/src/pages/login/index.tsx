@@ -1,4 +1,5 @@
 import React, { ReactElement, useState } from "react";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import {
   Alert,
@@ -66,6 +67,10 @@ const Login = () => {
   };
 
   return (
+    <>
+    <Head>
+      <title>ログインページ</title>
+    </Head>
     <Container component="main" maxWidth="xs">
       <Box>
         <Typography component="h1" variant="h5">
@@ -112,6 +117,7 @@ const Login = () => {
         </Box>
       </Box>
     </Container>
+    </>
   );
 };
 

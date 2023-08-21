@@ -15,6 +15,7 @@ import {
 } from "@mui/material/";
 import axios from "axios";
 import Link from "next/link"; // Next.js の Link コンポーネントをインポート
+import Head from "next/head";
 
 const SignUp = () => {
   const router = useRouter();
@@ -76,6 +77,10 @@ const SignUp = () => {
   };
 
   return (
+    <>
+    <Head>
+      <title>サインアップページ</title>
+    </Head>
     <Container component="main" maxWidth="xs">
       <Box>
         <Typography component="h1" variant="h5">
@@ -102,7 +107,7 @@ const SignUp = () => {
             サインアップ
           </Button>
           <Link href="/login" passHref>
-            <Button variant="text">戻る</Button>
+            <Button variant="text">ログインページに戻る</Button>
           </Link>
           {isError ? (
             <Alert
@@ -118,6 +123,7 @@ const SignUp = () => {
         </Box>
       </Box>
     </Container>
+    </>
   );
 };
 

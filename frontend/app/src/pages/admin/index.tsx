@@ -36,17 +36,18 @@ const Admin = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [assignedMentors, setAssignedMentors] = useState<Mentor[]>([]);
   const [unassignedMentees, setUnassignedMentees] = useState<Mentee[]>([]);
+  const apiUrl_2 = process.env.API_URI_2;
 
   useEffect(() => {
-    axios.get("http://localhost:3000/api/v1/users")
+    axios.get(apiUrl_2 + `/api/v1/users`)
       .then(response => setUsers(response.data))
       .catch(error => console.error(error));
 
-    axios.get("http://localhost:3000/api/v1/mentorships/assigned_mentors")
+    axios.get(apiUrl_2 + `/api/v1/mentorships/assigned_mentors`)
       .then(response => setAssignedMentors(response.data))
       .catch(error => console.error(error));
 
-    axios.get("http://localhost:3000/api/v1/mentorships/unassigned_mentees")
+    axios.get(apiUrl_2 + `/api/v1/mentorships/unassigned_mentees`)
         .then(response => {
         console.log("Unassigned Mentees:", response.data); // データをログ出力
         setUnassignedMentees(response.data);
@@ -77,7 +78,7 @@ const Admin = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.put(`http://localhost:3000/api/v1/mentorships/${menteeId}`, {
+      await axios.put(apiUrl_2 + `/api/v1/mentorships/${menteeId}`, {
         mentor_id: mentorId,
         status: status,
       });
@@ -110,7 +111,6 @@ const Admin = () => {
             <ul>{unassignedMenteesList}</ul>
           
             <form onSubmit={handleSubmit}>
-            {/* 未割当のメンティーを選ぶための選択リスト */}
             <select value={menteeId} onChange={(e) => setMenteeId(e.target.value)}>
             <option value="" disabled>未割当のメンティーを選択</option>
                 {unassignedMenteesList}

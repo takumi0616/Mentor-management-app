@@ -14,16 +14,24 @@ export const withAuthServerSideProps = (url: string): GetServerSideProps => {
     if (req.cookies["access-token"]) headers["access-token"] = req.cookies["access-token"];
 
     const response = await fetch(apiUrl_1 + `${url}`, { headers });
-
-    if (!response.ok && response.status === 401) {
+    if(response.ok){
+      console.log("ログイン情報はcookieで引き継がれており、ログイン出来ています")
+    }else if (!response.ok && response.status === 401) {
       return {
         redirect: {
           destination: "/login",
           permanent: false,
         },
       };
+    }else {
+      console.error("サーバーエラーが発生しました");
+      return {
+        redirect: {
+          destination: "/error", // サーバーエラーページへリダイレクトするか、適切なエラーページに置き換えてください
+          permanent: false,
+        },
+      };
     }
-    // TODO: 他にも500エラーを考慮した分岐も必要
     const props = await response.json();
     return { props };
   };

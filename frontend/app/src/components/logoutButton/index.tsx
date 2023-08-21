@@ -1,5 +1,6 @@
 import React from "react";
 import { useRouter } from "next/router";
+import Cookies from "js-cookie";
 
 function getCookie(name: string) {
   const value = `; ${document.cookie}`;
@@ -33,7 +34,11 @@ const LogoutButton = () => {
 
       if (response.ok) {
         localStorage.removeItem("email"); // emailの削除
+        localStorage.removeItem("id");
         router.push("/login"); // ログインページへリダイレクト
+        Cookies.remove("uid");
+        Cookies.remove("client");
+        Cookies.remove("access-token");
       } else {
         // エラーハンドリング
         console.error("ログアウトに失敗しました");

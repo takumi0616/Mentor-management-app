@@ -48,12 +48,12 @@ const Mentor = () => {
         const data = await response.json();
         setMenteeEmail(data.mentee_email);
       } else { 
-        console.error("メンティーのuidを取得できませんでした");
-        localStorage.removeItem("email"); // emailの削除
-        router.push("/login"); 
+        console.error("メンティーのemailを取得できませんでした");
+        // localStorage.removeItem("email"); // emailの削除
+        // router.push("/login"); 
       }
     } catch (error){
-      console.error("menteeのuidが取得できませんでした", error);
+      console.error("menteeのemailが取得できませんでした", error);
     }
   };
 
@@ -76,8 +76,10 @@ const Mentor = () => {
   }, []);
 
   useEffect(() => {
-    fetchMenteeEmail();
-  }, []);
+    if (menteeId) {
+      fetchMenteeEmail();
+    }
+  }, [menteeId]);
 
   useEffect(() => {
     if (menteeId) {
