@@ -22,7 +22,7 @@ const LearningRecordsPage = () => {
   // const authToken = Cookies.get("access-token");
   const [title, setTitle] = useState("");
   const [date, setDate] = useState("");
-  const [language, setLanguage] = useState("");
+  const [selectedLanguage, setSelectedLanguage] = useState<string>(""); // 選択された言語を管理するstate
   const [content, setContent] = useState("");
   const [learningRecords, setLearningRecords] = useState<LearningRecord[]>([]);
   const apiUrl_2 = process.env.API_URI_2;
@@ -48,7 +48,7 @@ const LearningRecordsPage = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-  const formData = { title, date, language, content };
+  const formData = { title, date, language: selectedLanguage, content };
   const headers = {
     "Content-Type": "application/json",
   };
@@ -62,7 +62,7 @@ const LearningRecordsPage = () => {
       console.log("学習記録が登録されました");
       setTitle("");
       setDate("");
-      setLanguage("");
+      setSelectedLanguage(""); 
       setContent("");
       loadLearningRecords();
     } else {
@@ -78,37 +78,58 @@ const LearningRecordsPage = () => {
       </Head>
       <div>
         <main>
-          <h1>メンティーダッシュボード</h1>
-          <p>ログインしているメールアドレス: {email}</p>
-          <p>ログインしているid: {user_id}</p>
+
+          <div style={{textAlign: 'center'}}>
+            <h1>メンティーダッシュボード</h1>
+            <p>ログインしているメールアドレス: {email}</p>
+            <p>ログインしているid: {user_id}</p>
+          </div>
+{/* */}
+          <div style={{width: '500px',margin: 'auto'}}> 
+            <h2 style={{textAlign: 'center'}}>学習記録登録</h2>
           <form onSubmit={handleSubmit}>
             <div>
-              <label>タイトル</label>
-              <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
+              <label>タイトル</label><br/>
+              <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} style = {{width: '30rem'}}/>
             </div>
             <div>
-              <label>日付</label>
+              <label>日付</label><br/>
               <input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
             </div>
             <div>
-              <label>言語</label>
-              <input type="text" value={language} onChange={(e) => setLanguage(e.target.value)} />
-            </div>
+                <label>言語</label><br/>
+                <select value={selectedLanguage} onChange={(e) => setSelectedLanguage(e.target.value)}>
+                  <option value="">選択してください</option>
+                  <option value="next.js">next.js</option>
+                  <option value="react">react</option>
+                </select>
+              </div>
             <div>
-              <label>内容</label>
-              <textarea value={content} onChange={(e) => setContent(e.target.value)} />
+              <label>内容</label><br/>
+              <textarea value={content} onChange={(e) => setContent(e.target.value)}  style={{ width: '30rem' }}/>
             </div>
-            <button type="submit">登録</button>
+            <div style={{textAlign: 'center'}}>
+              <button type="submit">登録</button>
+            </div>
+            
           </form>
-          <h2>学習記録一覧</h2>
-          <ul>
-            {learningRecords.map((record) => (
-              <li key={record.id}>
-                <p>タイトル: {record.title}   日付: {record.date}   言語: {record.language}   内容: {record.content}</p>
-              </li>
-            ))}
-          </ul>
-          <LogoutButton />
+          </div>
+          
+          <div style={{width: '600px',margin: 'auto'}}>
+            <h2>学習記録一覧</h2>
+            <ul>
+              {learningRecords.map((record) => (
+                <li key={record.id}>
+                  <p>タイトル: {record.title}   日付: {record.date}   言語: {record.language}   内容: {record.content}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+            
+          <div style={{textAlign: 'center'}}>
+            <LogoutButton />
+          </div>
+          
         </main>
       </div>
     </>

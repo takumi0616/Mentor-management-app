@@ -29,6 +29,7 @@ type Mentor = {
 
 const Admin = () => {
   const loggedInEmail = localStorage.getItem("email");
+  const user_id = localStorage.getItem("id") ? parseInt(localStorage.getItem("id")!) : 0; // もしnullなら0にする
   const [mentorId, setMentorId] = useState("");
   const [menteeId, setMenteeId] = useState("");
   const [status, setStatus] = useState("");
@@ -93,10 +94,11 @@ const Admin = () => {
       <Head>
         <title>管理者ダッシュボード</title>
       </Head>
-      <div>
+      <div style={{textAlign: 'center'}}>
       <main>
           <h1>管理者ダッシュボード</h1>
           <p>ログインしているメールアドレス: {loggedInEmail}</p>
+          <p>ログインしているid: {user_id}</p>
           <h2>All Users</h2>
             <ul>
                 {users.map((user) => (

@@ -94,10 +94,14 @@ const Mentor = () => {
       </Head>
       <div>
         <main>
-          <h1>メンターダッシュボード</h1>
-          <p>ログインしているメールアドレス: {email}</p>
-          <p>ここにメンター向けのコンテンツを追加できます。</p>
-          <h2>メンティー{MenteeEmail}の学習記録一覧</h2>
+          <div style={{textAlign: 'center'}}>
+            <h1>メンターダッシュボード</h1>
+            <p>ログインしているメールアドレス: {email}</p>
+            <p>ログインしているid: {user_id}</p>
+            <p>ここにメンター向けのコンテンツを追加できます。</p>
+          </div>
+          <div style={{width: '600px',margin: 'auto'}}>
+            <h2>メンティー{MenteeEmail}の学習記録一覧</h2>
           <ul>
             {learningRecords.map((record) => (
               <li key={record.id}>
@@ -105,7 +109,12 @@ const Mentor = () => {
               </li>
             ))}
           </ul>
-          <LogoutButton />
+          </div>
+          
+          <div style={{textAlign: 'center'}}>
+            <LogoutButton />
+          </div>
+          
         </main>
       </div>
     </>

@@ -87,7 +87,8 @@ const SignUp = () => {
           サインアップ
         </Typography>
         <Box component="form" onSubmit={handleSubmit}>
-          <TextField id="email" label="メールアドレス" name="email" autoComplete="email" autoFocus />
+          
+          <TextField id="email" label="メールアドレス" name="email" autoComplete="email" autoFocus style = {{display: 'block'}}/>
           <TextField name="password" label="パスワード" type="password" id="password" autoComplete="current-password" />
           <TextField
             name="password_confirmation"
@@ -96,6 +97,8 @@ const SignUp = () => {
             id="password_confirmation"
             autoComplete="current-password"
           />
+          
+          
           <FormControl fullWidth variant="outlined" sx={{ mt: 2 }}>
             <InputLabel id="role-label">役割</InputLabel>
             <Select labelId="role-label" id="role" value={role} onChange={handleRoleChange} label="役割">
