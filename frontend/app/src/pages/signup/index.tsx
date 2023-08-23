@@ -83,54 +83,54 @@ const SignUp = () => {
 
   return (
     <>
-    <Head>
-      <title>サインアップページ</title>
-    </Head>
-    <Container component="main" maxWidth="xs">
-      <Box>
-        <Typography component="h1" variant="h5">
-          サインアップ
-        </Typography>
-        <Box component="form" onSubmit={handleSubmit}>
-          
-          <TextField id="email" label="メールアドレス" name="email" autoComplete="email" autoFocus style = {{display: 'block'}}/>
-          <TextField name="password" label="パスワード" type="password" id="password" autoComplete="current-password" />
-          <TextField
-            name="password_confirmation"
-            label="パスワードの確認"
-            type="password"
-            id="password_confirmation"
-            autoComplete="current-password"
-          />
-          
-          
-          <FormControl fullWidth variant="outlined" sx={{ mt: 2 }}>
-            <InputLabel id="role-label">役割</InputLabel>
-            <Select labelId="role-label" id="role" value={role} onChange={handleRoleChange} label="役割">
-              <MenuItem value={"mentor"}>メンター</MenuItem>
-              <MenuItem value={"mentee"}>メンティー</MenuItem>
-            </Select>
-          </FormControl>
-          <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
+      <Head>
+        <title>サインアップページ</title>
+      </Head>
+      
+      <Container component="main" maxWidth="xs">
+        <Box>
+
+          <Typography component="h1" variant="h5">
             サインアップ
-          </Button>
-          <Link href="/login" passHref>
-            <Button variant="text">ログインページに戻る</Button>
-          </Link>
-          {isError ? (
-            <Alert
-              onClose={() => {
-                setIsError(false);
-                setErrorMessage("");
-              }}
-              severity="error"
-            >
-              {errorMessage}
-            </Alert>
-          ) : null}
+          </Typography>
+
+          <Box component="form" onSubmit={handleSubmit}>
+            
+            <TextField id="email" label="メールアドレス" name="email" autoComplete="email" autoFocus style = {{display: 'block'}}/>
+            <TextField name="password" label="パスワード" type="password" id="password" autoComplete="current-password" />
+            <TextField name="password_confirmation" label="パスワードの確認" type="password" id="password_confirmation" autoComplete="current-password"/>
+            
+            <FormControl fullWidth variant="outlined" sx={{ mt: 2 }}>
+              <InputLabel id="role-label">役割</InputLabel>
+              <Select labelId="role-label" id="role" value={role} onChange={handleRoleChange} label="役割">
+                <MenuItem value={"mentor"}>メンター</MenuItem>
+                <MenuItem value={"mentee"}>メンティー</MenuItem>
+              </Select>
+            </FormControl>
+
+            <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
+              サインアップ
+            </Button>
+
+            <Link href="/login" passHref>
+              <Button variant="text">ログインページに戻る</Button>
+            </Link>
+
+            {isError ? (
+              <Alert
+                onClose={() => {
+                  setIsError(false);
+                  setErrorMessage("");
+                }}
+                severity="error"
+              >
+                {errorMessage}
+              </Alert>
+            ) : null}
+            
+          </Box>
         </Box>
-      </Box>
-    </Container>
+      </Container>
     </>
   );
 };

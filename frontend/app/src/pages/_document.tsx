@@ -5,14 +5,16 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head />
+
       <div>
         <Header/>
       </div>
+
       <div style={{marginTop: '10rem'}}>
-      <body>
-        <Main />
-        <NextScript />
-      </body>
+        <body>
+          <Main />
+          <NextScript />
+        </body>
       </div>
       
     </Html>
