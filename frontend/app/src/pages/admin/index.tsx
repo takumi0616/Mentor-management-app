@@ -77,18 +77,18 @@ const Admin = () => {
   const unassignedMenteesList = unassignedMentees.map(mentee => {
     const menteeUser = users.find(user => user.id === mentee.mentee_id);
     return menteeUser ? (
-      <option key={mentee.id} value={mentee.id}>
+      <Table key={mentee.id}>
         {menteeUser.email} 
-      </option>
+      </Table>
     ) : null;
   });
   
   const assignedMentorsList = assignedMentors.map(mentor => {
     const mentorUser = users.find(user => user.id === mentor.mentor_id);
     return mentorUser ? (
-      <li key={mentor.mentor_id}>
-        {mentorUser.email}
-      </li>
+      <Table key={mentor.mentor_id}>
+        {mentor.mentor_id} - {mentorUser.email}
+      </Table>
     ) : null;
   });
   
@@ -116,63 +116,90 @@ const Admin = () => {
       <div>
         <main>
 
-        <div style={{textAlign: 'center'}}>
-          <Typography component="h1" variant="h5">
-            管理者ダッシュボード
-          </Typography>
-          <p>ログインしているメールアドレス: {loggedInEmail}</p>
-          <p>ログインしているid: {user_id}</p>
           <div style={{textAlign: 'center'}}>
-            <LogoutButton />
+            <Typography component="h1" variant="h5">
+              管理者ダッシュボード
+            </Typography>
+            <p>ログインしているメールアドレス: {loggedInEmail}</p>
+            <p>ログインしているid: {user_id}</p>
+            <div style={{textAlign: 'center'}}>
+              <LogoutButton />
+            </div>
           </div>
-        </div>
 
-          <h2>All Users</h2>
-            <ul>
+          <div style={{width: '370px',margin: 'auto'}}>
+            <div>
+              <Typography component="h1" variant="h5" style={{textAlign: 'center'}}>
+                All Users
+              </Typography>
+              <ul>
                 {users.map((user) => (
-                <li key={user.id}>
-                    {user.id} - {user.email} - {user.role}
-                </li>
+                  <Box>
+                    <Table  key={user.id}>
+                      <p>{user.id} - {user.email} - {user.role}</p>
+                    </Table>
+                  </Box>
                 ))}
-            </ul>
-            <h2>割り当て済みのMentors</h2>
-            <ul>{assignedMentorsList}</ul>
-            <h2>未割り当てのMentees</h2>
-            <ul>{unassignedMenteesList}</ul>
-          
-            <form onSubmit={handleSubmit}>
-
-              <div>
-                <TextField type="text" placeholder="Mentor ID" value={mentorId} onChange={(e) => setMentorId(e.target.value)}/>
-              </div>
-
-              <div>
-                <FormControl fullWidth variant="outlined" sx={{ mt: 2 }}>
-                  <Select value={menteeId} onChange={(e) => setMenteeId(e.target.value)}>
-                    <MenuItem value="" disabled>未割当のメンティーを選択</MenuItem>
-                      {unassignedMenteesList}
-                  </Select>
-                </FormControl>
-              </div>
-
-              <div>
-                <FormControl fullWidth variant="outlined" sx={{ mt: 2 }}>
-                  <InputLabel>ステータス</InputLabel>
-                    <Select value={status} onChange={(e) => setStatus(e.target.value)}>
-                      <MenuItem  value="" disabled>ステータスを選択</MenuItem>
-                      <MenuItem  value="active">active</MenuItem>
-                      <MenuItem  value="pending">pending</MenuItem>
-                      <MenuItem  value="completed">completed</MenuItem>
-                      <MenuItem  value="paused">paused</MenuItem>
-                  </Select>
-                </FormControl>
-              </div><br/>
+              </ul>
+            </div>
               
-              <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>登録</Button>
-            </form>
+            <div>
+              <Typography component="h1" variant="h5" style={{textAlign: 'center'}}>
+                割り当て済みのMentors
+              </Typography>
+              <ul>
+                <Box>
+                  {assignedMentorsList}
+                </Box>
+              </ul>
+            </div>
+                
+            <div>
+              <Typography component="h1" variant="h5" style={{textAlign: 'center'}}>
+                未割り当てのMentees
+              </Typography>
+              <ul>
+                <Box>
+                  {unassignedMenteesList}
+                </Box>
+              </ul>
+            </div>
 
-              {message && <p>{message}</p>}
+          </div>
           
+          <form onSubmit={handleSubmit} style={{width: '600px',margin: 'auto'}}>
+            <div>
+              <TextField type="text" placeholder="Mentor ID" value={mentorId} onChange={(e) => setMentorId(e.target.value)}/>
+            </div>
+
+            <div>
+              <FormControl fullWidth variant="outlined" sx={{ mt: 2 }}>
+                <Select value={menteeId} onChange={(e) => setMenteeId(e.target.value)}>
+                  <MenuItem value="" disabled>未割当のメンティーを選択</MenuItem>
+                    {unassignedMenteesList}
+                </Select>
+              </FormControl>
+            </div>
+
+            <div>
+              <FormControl fullWidth variant="outlined" sx={{ mt: 2 }}>
+                <InputLabel>ステータス</InputLabel>
+                  <Select value={status} onChange={(e) => setStatus(e.target.value)}>
+                    <MenuItem  value="" disabled>ステータスを選択</MenuItem>
+                    <MenuItem  value="active">active</MenuItem>
+                    <MenuItem  value="pending">pending</MenuItem>
+                    <MenuItem  value="completed">completed</MenuItem>
+                    <MenuItem  value="paused">paused</MenuItem>
+                </Select>
+              </FormControl>
+            </div><br/>
+            
+            <div style={{textAlign: 'center'}}>
+              <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>登録</Button>
+            </div>
+          </form>
+
+          {message && <p>{message}</p>}
         </main>
       </div>
     </>

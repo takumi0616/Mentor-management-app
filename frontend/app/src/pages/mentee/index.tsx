@@ -146,7 +146,7 @@ const LearningRecordsPage = () => {
           </div>
           
           <div style={{width: '600px',margin: 'auto'}}>
-            <h2 style={{textAlign: 'center'}}>学習記録一覧</h2>
+            <h2 style={{textAlign: 'center'}}>自分の学習記録一覧</h2>
             <ul>
               {learningRecords.map((record) => (
                 <Box>
