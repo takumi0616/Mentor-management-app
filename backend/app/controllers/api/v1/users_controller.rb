@@ -13,4 +13,5 @@ class Api::V1::UsersController < ApplicationController
         render json: { error: "No user found with the specified ID" }, status: :not_found
       end
     end
+    
 end
