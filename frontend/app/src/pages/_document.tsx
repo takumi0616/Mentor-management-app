@@ -4,12 +4,17 @@ import Header from 'components/header/'
 export default function Document() {
   return (
     <Html lang="en">
-      <Header/>
       <Head />
+      <div>
+        <Header/>
+      </div>
+      <div style={{marginTop: '10rem'}}>
       <body>
         <Main />
         <NextScript />
       </body>
+      </div>
+      
     </Html>
   )
 }

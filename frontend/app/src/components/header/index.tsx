@@ -1,13 +1,32 @@
 import React from 'react';
+import {
+  Alert,
+  AppBar,
+  Avatar,
+  Box,
+  Button,
+  Container,
+  Divider,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  TextField,
+  Typography,
+  Table,
+  Stack
+} from "@mui/material/";
 
 const Header: React.FC = () => {
   return (
-    <header style={{textAlign: 'center'}}>
-      <div>
+    <AppBar>
+      <div style={{textAlign: 'center'}}>
         <h1>Mentor-management-app</h1>
       </div>
-    </header>
+    </AppBar>
   );
 };
 
 export default Header;
+//  <header style={{textAlign: 'center'}}>  </header>

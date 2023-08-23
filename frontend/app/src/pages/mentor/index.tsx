@@ -4,6 +4,24 @@ import { useRouter } from "next/router";
 import { GetServerSideProps } from "next";
 import { withAuthServerSideProps } from "lib/auth";
 import LogoutButton from "components/logoutButton";
+import {
+  Alert,
+  AppBar,
+  Avatar,
+  Box,
+  Button,
+  Container,
+  Divider,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  TextField,
+  Typography,
+  Table,
+  Stack
+} from "@mui/material/";
 
 interface LearningRecord {
   id: number;
@@ -92,27 +110,37 @@ const Mentor = () => {
       <Head>
         <title>メンターダッシュボード</title>
       </Head>
+
       <div>
         <main>
+
           <div style={{textAlign: 'center'}}>
-            <h1>メンターダッシュボード</h1>
-            <p>ログインしているメールアドレス: {email}</p>
-            <p>ログインしているid: {user_id}</p>
-            <p>ここにメンター向けのコンテンツを追加できます。</p>
+            <Box>
+              <Typography component="h1" variant="h5">
+                メンターダッシュボード
+              </Typography>
+              <p>ログインしているメールアドレス: {email}</p>
+              <p>ログインしているid: {user_id}</p>
+              <div style={{textAlign: 'center'}}>
+                <LogoutButton />
+              </div>
+              <p>ここにメンター向けのコンテンツを追加</p>
+            </Box>
           </div>
+
           <div style={{width: '600px',margin: 'auto'}}>
-            <h2>メンティー{MenteeEmail}の学習記録一覧</h2>
-          <ul>
-            {learningRecords.map((record) => (
-              <li key={record.id}>
-                <p>タイトル: {record.title}   日付: {record.date}   言語: {record.language}   内容: {record.content}</p>
-              </li>
-            ))}
-          </ul>
-          </div>
-          
-          <div style={{textAlign: 'center'}}>
-            <LogoutButton />
+            <Typography component="h1" variant="h5">
+              メンティーの学習記録一覧({MenteeEmail})
+            </Typography>
+            <ul>
+              {learningRecords.map((record) => (
+              <Box>
+                <Table key={record.id}>
+                  <p>タイトル: {record.title}   日付: {record.date}   言語: {record.language}   内容: {record.content}</p>
+                </Table>
+              </Box>
+              ))}
+            </ul>
           </div>
           
         </main>

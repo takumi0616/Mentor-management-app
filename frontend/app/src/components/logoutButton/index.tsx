@@ -1,6 +1,24 @@
 import React from "react";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
+import {
+  Alert,
+  AppBar,
+  Avatar,
+  Box,
+  Button,
+  Container,
+  Divider,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  TextField,
+  Typography,
+  Table,
+  Stack
+} from "@mui/material/";
 
 function getCookie(name: string) {
   const value = `; ${document.cookie}`;
@@ -50,7 +68,7 @@ const LogoutButton = () => {
   };
 
   return (
-    <button onClick={handleLogout}>ログアウト</button>
+    <Button variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleLogout}>ログアウト</Button>
   );
 };
 

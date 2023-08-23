@@ -4,6 +4,24 @@ import { GetServerSideProps } from "next";
 import { withAuthServerSideProps } from "lib/auth";
 import LogoutButton from "components/logoutButton";
 import Cookies from "js-cookie";
+import {
+  Alert,
+  AppBar,
+  Avatar,
+  Box,
+  Button,
+  Container,
+  Divider,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  TextField,
+  Typography,
+  Table,
+  Stack
+} from "@mui/material/";
 
 interface LearningRecord {
   id: number;
@@ -76,58 +94,68 @@ const LearningRecordsPage = () => {
       <Head>
         <title>メンティーダッシュボード</title>
       </Head>
+
       <div>
         <main>
 
           <div style={{textAlign: 'center'}}>
-            <h1>メンティーダッシュボード</h1>
+            <Typography component="h1" variant="h5">
+              メンティーダッシュボード
+            </Typography>
             <p>ログインしているメールアドレス: {email}</p>
             <p>ログインしているid: {user_id}</p>
+            <div style={{textAlign: 'center'}}>
+              <LogoutButton />
+            </div>
+            <p>メンティー向けのコンテンツを追加</p>
           </div>
-{/* */}
+
           <div style={{width: '500px',margin: 'auto'}}> 
             <h2 style={{textAlign: 'center'}}>学習記録登録</h2>
-          <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit}>
             <div>
-              <label>タイトル</label><br/>
-              <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} style = {{width: '30rem'}}/>
+              <TextField type="text" label="タイトル" value={title} onChange={(e) => setTitle(e.target.value)} style = {{width: '30rem'}}/>
+            </div><br/>
+
+            <div>
+              <TextField type="date" value={date} onChange={(e) => setDate(e.target.value)} />
+            </div><br/>
+
+            <div>
+              <FormControl fullWidth variant="outlined" sx={{ mt: 2 }}>
+                <InputLabel>言語</InputLabel>
+                <Select value={selectedLanguage} onChange={(e) => setSelectedLanguage(e.target.value)}>
+                  <MenuItem value="">選択してください</MenuItem>
+                  <MenuItem value="next.js">next.js</MenuItem>
+                  <MenuItem value="react">react</MenuItem>
+                </Select>
+              </FormControl>
+            </div><br/>
+
+            <div><br/>
+              <FormControl fullWidth>
+                <TextField value={content} label="内容" multiline rows={3} onChange={(e) => setContent(e.target.value)}  style={{ width: '30rem' }}/>
+              </FormControl>
             </div>
-            <div>
-              <label>日付</label><br/>
-              <input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
-            </div>
-            <div>
-                <label>言語</label><br/>
-                <select value={selectedLanguage} onChange={(e) => setSelectedLanguage(e.target.value)}>
-                  <option value="">選択してください</option>
-                  <option value="next.js">next.js</option>
-                  <option value="react">react</option>
-                </select>
-              </div>
-            <div>
-              <label>内容</label><br/>
-              <textarea value={content} onChange={(e) => setContent(e.target.value)}  style={{ width: '30rem' }}/>
-            </div>
+
             <div style={{textAlign: 'center'}}>
-              <button type="submit">登録</button>
+              <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>登録</Button>
             </div>
-            
+
           </form>
           </div>
           
           <div style={{width: '600px',margin: 'auto'}}>
-            <h2>学習記録一覧</h2>
+            <h2 style={{textAlign: 'center'}}>学習記録一覧</h2>
             <ul>
               {learningRecords.map((record) => (
-                <li key={record.id}>
-                  <p>タイトル: {record.title}   日付: {record.date}   言語: {record.language}   内容: {record.content}</p>
-                </li>
+                <Box>
+                  <Table key={record.id}>
+                    <p>タイトル: {record.title}   日付: {record.date}   言語: {record.language}   内容: {record.content}</p>
+                  </Table>
+                </Box>
               ))}
             </ul>
-          </div>
-            
-          <div style={{textAlign: 'center'}}>
-            <LogoutButton />
           </div>
           
         </main>

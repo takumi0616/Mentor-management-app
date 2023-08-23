@@ -3,11 +3,21 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import {
   Alert,
+  AppBar,
+  Avatar,
   Box,
   Button,
   Container,
+  Divider,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
   TextField,
   Typography,
+  Table,
+  Stack
 } from "@mui/material/";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -71,33 +81,22 @@ const Login = () => {
     <Head>
       <title>ログインページ</title>
     </Head>
+
     <Container component="main" maxWidth="xs">
       <Box>
         <Typography component="h1" variant="h5">
           ログイン
         </Typography>
         <Box component="form" onSubmit={handleSubmit}>
-          <TextField
-            id="email"
-            label="メールアドレス"
-            name="email"
-            autoComplete="email"
-            autoFocus
-          />
-          <TextField
-            name="password"
-            label="パスワード"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-          />
-          <Button
-            type="submit"
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-          >
+
+          <TextField id="email" label="メールアドレス" name="email" autoComplete="email" autoFocus/>
+
+          <TextField name="password" label="パスワード" type="password" id="password" autoComplete="current-password"/>
+
+          <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
             ログイン
           </Button>
+
           {isError ? (
             <Alert
               onClose={() => {
@@ -110,11 +109,15 @@ const Login = () => {
             </Alert>
           ) : null}
         </Box>
+
         <Box sx={{ mt: 2 }}>
           <Link href="/signup" passHref>
-            <Button variant="text">新規アカウントを作成</Button>
+            <Button variant="text">
+              新規アカウントを作成
+            </Button>
           </Link>
         </Box>
+
       </Box>
     </Container>
     </>
