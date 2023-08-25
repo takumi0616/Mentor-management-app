@@ -199,7 +199,7 @@ const Admin = () => {
               管理者ダッシュボード
             </Typography>
             <p>ログインしているメールアドレス: {loggedInEmail}</p>
-            <p>ログインしているid: {user_id}</p>
+            <p>ログインしているID: {user_id}</p>
             <div style={{textAlign: 'center'}}>
               <LogoutButton />
             </div>

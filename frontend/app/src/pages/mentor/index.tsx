@@ -120,7 +120,7 @@ const Mentor = () => {
                 メンターダッシュボード
               </Typography>
               <p>ログインしているメールアドレス: {email}</p>
-              <p>ログインしているid: {user_id}</p>
+              <p>ログインしているID: {user_id}</p>
               <div style={{textAlign: 'center'}}>
                 <LogoutButton />
               </div>
