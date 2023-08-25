@@ -19,7 +19,7 @@ class Api::V1::MentorshipsController < ApplicationController
   # mentorshipの新規作成
   # mentee_idとstatusは指定して作成し、mentor_idは後から割り振る
   def create
-    mentorship = Mentorship.new(mentorship_params.except(:mentor_id))
+    mentorship = Mentorship.new(mentorship_params.except(:mentor_id, :mentor_email))
 
     if mentorship.save
       render json: mentorship, status: :created
@@ -32,7 +32,7 @@ class Api::V1::MentorshipsController < ApplicationController
   # mentee_idに対応するmentorshipのレコードを探し、mentor_idを更新
   def update
     mentorship = Mentorship.find(params[:id])
-    if mentorship.update(mentor_id: params[:mentor_id])
+    if mentorship.update(mentor_id: params[:mentor_id], status: params[:status], mentor_email: params[:mentor_email])
       render json: mentorship
     else
       render json: mentorship.errors, status: :unprocessable_entity
@@ -49,11 +49,20 @@ class Api::V1::MentorshipsController < ApplicationController
     end
   end
 
+  def get_tableId_by_menteeId
+    mentorship = Mentorship.find_by(mentee_id: params[:id])
+    if mentorship
+      table_id = mentorship.id
+      render json: { id: table_id }
+    else
+      render json: { error: "No mentorship found for the specified mentor" }, status: :not_found
+    end
+  end
 
   private
 
   def mentorship_params
-    params.require(:mentorship).permit(:mentor_id, :mentee_id, :status)
+    params.require(:mentorship).permit(:id, :mentor_id, :mentee_id, :status, :mentee_email, :mentor_email)
   end
 end
 

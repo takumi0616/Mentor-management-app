@@ -12,10 +12,12 @@ Rails.application.routes.draw do
         end
         member do
           get :get_mentee_by_mentor
+          get :get_tableId_by_menteeId
         end
       end
 
       get '/users/:id/get_mentee_email_by_mentee_id', to: 'users#get_mentee_email_by_mentee_id'
+      get '/users/:id/get_mentor_email_by_mentor_id', to: 'users#get_mentor_email_by_mentor_id'
 
       mount_devise_token_auth_for 'User', at: 'auth', controllers: {
         registrations: 'api/v1/auth/registrations',

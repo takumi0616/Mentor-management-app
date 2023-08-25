@@ -52,7 +52,7 @@ const Mentor = () => {
         console.error("メンティーIDの取得に失敗しました");
         // エラー時の処理を追加：管理者に申し出るなど
         localStorage.removeItem("email"); // emailの削除
-        router.push("/login"); 
+        router.push("/error"); 
       }
     } catch (error) {
       console.error("エラーが発生しました:", error);
@@ -68,7 +68,7 @@ const Mentor = () => {
       } else { 
         console.error("メンティーのemailを取得できませんでした");
         localStorage.removeItem("email"); // emailの削除
-        router.push("/login"); 
+        router.push("/error"); 
       }
     } catch (error){
       console.error("menteeのemailが取得できませんでした", error);

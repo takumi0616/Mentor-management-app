@@ -28,7 +28,8 @@ mentee_user1 = User.create!(
 )
 
 Mentorship.create!(
-  mentee_id: mentee_user1.id
+  mentee_id: mentee_user1.id,
+  mentee_email: mentee_user1.email
 )
 
 
@@ -41,7 +42,8 @@ mentee_user2 = User.create!(
 
 # mentorship テーブルに対応するレコードを作成
 Mentorship.create!(
-  mentee_id: mentee_user2.id
+  mentee_id: mentee_user2.id,
+  mentee_email: mentee_user2.email
 )
 
 LearningRecord.create!(

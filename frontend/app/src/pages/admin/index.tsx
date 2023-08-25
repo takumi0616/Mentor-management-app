@@ -22,6 +22,8 @@ import {
   Table,
   Stack
 } from "@mui/material/";
+import Cookies from "js-cookie";
+import { useRouter } from "next/router";
 
 export const getServerSideProps: GetServerSideProps = withAuthServerSideProps("/api/v1/test");
 
@@ -39,17 +41,28 @@ type Mentee = {
   };
   
 type Mentor = {
-    mentor_id: any;
-    email: string; // メールアドレスを追加
     id: string;
+    mentor_id: any;
+    mentor_email: string; // メールアドレスを追加
+    mentee_id: any;
+    mentee_email: string;
     // 必要に応じて他のプロパティを追加
 };
+
+type Allships = {
+  id: any;
+  mentee_id: string;
+  mentor_id: string;
+  status: string | null;
+}
 
 const Admin = () => {
   const loggedInEmail = localStorage.getItem("email");
   const user_id = localStorage.getItem("id") ? parseInt(localStorage.getItem("id")!) : 0; // もしnullなら0にする
   const [mentorId, setMentorId] = useState("");
   const [menteeId, setMenteeId] = useState("");
+  const [mentorEmail, setMentorEmail] = useState("");
+  const [tableId, setTableId] = useState("");
   const [status, setStatus] = useState("");
   const [message, setMessage] = useState("");
   const [users, setUsers] = useState<User[]>([]);
@@ -62,7 +75,7 @@ const Admin = () => {
       .then(response => setUsers(response.data))
       .catch(error => console.error(error));
 
-    axios.get(apiUrl_2 + `/api/v1/mentorships/assigned_mentors`)
+    axios.get(apiUrl_2 + `/api/v1/mentorships`)
       .then(response => setAssignedMentors(response.data))
       .catch(error => console.error(error));
 
@@ -82,29 +95,94 @@ const Admin = () => {
       </Table>
     ) : null;
   });
+
+  const unassignedMenteesOptionList = unassignedMentees.map(mentee => {
+    const menteeUser = users.find(user => user.id === mentee.mentee_id);
+    return menteeUser ? (
+         <MenuItem  value={mentee.mentee_id}>{menteeUser.email}</MenuItem>
+    ) : null;
+  });
+
+  const loadMentorEmail = async () => {
+    const mentor_id = mentorId;
+    try {
+      const response = await fetch(apiUrl_2 + `/api/v1/users/${mentor_id}/get_mentor_email_by_mentor_id`);
+      if (response.ok) {
+        const data = await response.json();
+        setMentorEmail(data.mentor_email);
+      } else {
+        console.error("学習記録の読み込みに失敗しました");
+      }
+    } catch (error) {
+      console.error("エラーが発生しました:", error);
+    }
+  };
+
+  const loadTableId = async () => {
+    const mentee_id = menteeId;
+    try {
+      const response = await fetch(apiUrl_2 + `/api/v1/mentorships/${mentee_id}/get_tableId_by_menteeId`);
+      if (response.ok) {
+        const data = await response.json();
+        setTableId(data.id);
+      } else {
+        console.error("学習記録の読み込みに失敗しました");
+      }
+    } catch (error) {
+      console.error("エラーが発生しました:", error);
+    }
+  };
   
   const assignedMentorsList = assignedMentors.map(mentor => {
     const mentorUser = users.find(user => user.id === mentor.mentor_id);
     return mentorUser ? (
       <Table key={mentor.mentor_id}>
-        {mentor.mentor_id} - {mentorUser.email}
+        <p>{mentor.mentor_id} - {mentorUser.email} {"->"} {mentor.mentee_id} - {mentor.mentee_email}</p>
       </Table>
     ) : null;
   });
   
 
+
+  useEffect(() => {
+      loadMentorEmail();
+    }, [mentorId]);
+
+    useEffect(() => {
+      loadTableId();
+    }, [menteeId]);
+
+
   // mentor_idを割り当てる処理
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log(tableId)
+    const table_id = tableId;
+    const router = useRouter();
     try {
-      await axios.put(apiUrl_2 + `/api/v1/mentorships/${menteeId}`, {
+      console.log(table_id)
+      await axios.put(apiUrl_2 + `/api/v1/mentorships/${table_id}`, {
         mentor_id: mentorId,
         status: status,
+        mentor_email: mentorEmail,
       });
       setMessage("Mentorshipが正常に登録されました！");
       setUnassignedMentees(unassignedMentees.filter(mentee => mentee.id !== menteeId)); // 未割り当てのmentee_idリストの更新
+      // 入力値のリセット
+      setMentorId("");
+      setMenteeId("");
+      setStatus("");
+      setMentorEmail("");
+      // リロード処理
+      window.location.reload();
     } catch (error: unknown) {
       // エラー処理...
+      localStorage.removeItem("email"); // emailの削除
+      localStorage.removeItem("id");
+      Cookies.remove("uid");
+      Cookies.remove("client");
+      Cookies.remove("access-token");
+      router.push("/login"); // ログインページへリダイレクト
     }
   };
   return (
@@ -127,8 +205,8 @@ const Admin = () => {
             </div>
           </div>
 
-          <div style={{width: '370px',margin: 'auto'}}>
-            <div>
+          <div>
+            <div style={{width: '370px',margin: 'auto'}}>
               <Typography component="h1" variant="h5" style={{textAlign: 'center'}}>
                 All Users
               </Typography>
@@ -143,7 +221,7 @@ const Admin = () => {
               </ul>
             </div>
               
-            <div>
+            <div style={{width: '550px',margin: 'auto'}}>
               <Typography component="h1" variant="h5" style={{textAlign: 'center'}}>
                 割り当て済みのMentors
               </Typography>
@@ -154,7 +232,7 @@ const Admin = () => {
               </ul>
             </div>
                 
-            <div>
+            <div style={{width: '300px',margin: 'auto'}}>
               <Typography component="h1" variant="h5" style={{textAlign: 'center'}}>
                 未割り当てのMentees
               </Typography>
@@ -176,7 +254,7 @@ const Admin = () => {
               <FormControl fullWidth variant="outlined" sx={{ mt: 2 }}>
                 <Select value={menteeId} onChange={(e) => setMenteeId(e.target.value)}>
                   <MenuItem value="" disabled>未割当のメンティーを選択</MenuItem>
-                    {unassignedMenteesList}
+                    {unassignedMenteesOptionList}
                 </Select>
               </FormControl>
             </div>
@@ -193,13 +271,16 @@ const Admin = () => {
                 </Select>
               </FormControl>
             </div><br/>
+            <div style={{textAlign: 'center'}}>
+              {message && <p>{message}</p>}
+            </div>
             
             <div style={{textAlign: 'center'}}>
               <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>登録</Button>
             </div>
           </form>
 
-          {message && <p>{message}</p>}
+          
         </main>
       </div>
     </>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_08_20_133318) do
+ActiveRecord::Schema.define(version: 2023_08_25_135302) do
 
   create_table "learning_records", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "user_id", null: false
@@ -29,6 +29,8 @@ ActiveRecord::Schema.define(version: 2023_08_20_133318) do
     t.string "status"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "mentor_email"
+    t.string "mentee_email"
     t.index ["mentee_id"], name: "index_mentorships_on_mentee_id"
     t.index ["mentor_id"], name: "index_mentorships_on_mentor_id"
   end

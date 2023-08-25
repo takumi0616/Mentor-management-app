@@ -60,11 +60,14 @@ const SignUp = () => {
           console.log(response.data);
           if (role === "mentee") {
             const menteeId = response.data.data.id; // サーバーから返されたmenteeのID
-
+            console.log(data.get("email"))
+            const menteeEmail = data.get("email");
+            console.log(menteeEmail);
             await axiosInstance
             .post("mentorships", {
                 mentorship: {
                     mentee_id: menteeId,
+                    mentee_email: menteeEmail,
                 }
             })
             .then(function () {

@@ -34,8 +34,8 @@ docker compose run --rm api bundle exec rails db:seed
 
 * Database recreation
 docker-compose down -v
-docker-compose run api rails db:create
-docker-compose run api rails db:migrate
+docker-compose run --rm api rails db:create
+docker-compose run --rm api rails db:migrate
 docker compose run --rm api bundle exec rails db:seed
 
 * Database initialization
@@ -55,3 +55,6 @@ docker-compose run api rails db:migrate
 docker compose run --rm api bundle exec rails db:seed
 docker compose up
 //finish docker compose down
+
+* seed data reset
+docker compose run --rm api bundle exec rails db:reset db:seed
