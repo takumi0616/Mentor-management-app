@@ -75,6 +75,9 @@ const Error = () => {
 
     return(
         <>
+          <Head>
+            <title>エラーページ</title>
+          </Head>
           <div>
             <main>
               <div style={{textAlign: 'center'}}>
