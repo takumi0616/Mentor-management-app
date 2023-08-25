@@ -86,7 +86,7 @@ const Login = () => {
       <Box>
         <Typography component="h1" variant="h5">
           ログイン
-        </Typography>
+        </Typography><br/>
         <Box component="form" onSubmit={handleSubmit}>
 
           <TextField id="email" label="メールアドレス" name="email" autoComplete="email" autoFocus/>

@@ -95,11 +95,11 @@ const SignUp = () => {
 
           <Typography component="h1" variant="h5">
             サインアップ
-          </Typography>
+          </Typography><br/>
 
           <Box component="form" onSubmit={handleSubmit}>
             
-            <TextField id="email" label="メールアドレス" name="email" autoComplete="email" autoFocus style = {{display: 'block'}}/>
+            <TextField id="email" label="メールアドレス" name="email" autoComplete="email" autoFocus style = {{display: 'block'}}/><br/>
             <TextField name="password" label="パスワード" type="password" id="password" autoComplete="current-password" />
             <TextField name="password_confirmation" label="パスワードの確認" type="password" id="password_confirmation" autoComplete="current-password"/>
             
