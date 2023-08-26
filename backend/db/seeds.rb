@@ -40,7 +40,6 @@ mentee_user2 = User.create!(
   admin: false
 )
 
-# mentorship テーブルに対応するレコードを作成
 Mentorship.create!(
   mentee_id: mentee_user2.id,
   mentee_email: mentee_user2.email
@@ -50,7 +49,7 @@ LearningRecord.create!(
   user_id: 3,
   title: 'first',
   date: '2023-08-22',
-  language: 'Next.js',
+  language: 'Next',
   content: 'テスト用0'
 )
 
@@ -58,7 +57,7 @@ LearningRecord.create!(
   user_id: 4,
   title: 'second',
   date: '2023-08-22',
-  language: 'React.js',
+  language: 'React',
   content: 'テスト用1'
 )
 

@@ -69,6 +69,7 @@ const Admin = () => {
   const [assignedMentors, setAssignedMentors] = useState<Mentor[]>([]);
   const [unassignedMentees, setUnassignedMentees] = useState<Mentee[]>([]);
   const apiUrl_2 = process.env.API_URI_2;
+  const router = useRouter();
 
   useEffect(() => {
     axios.get(apiUrl_2 + `/api/v1/users`)
@@ -158,7 +159,7 @@ const Admin = () => {
     e.preventDefault();
     console.log(tableId)
     const table_id = tableId;
-    const router = useRouter();
+   
     try {
       console.log(table_id)
       await axios.put(apiUrl_2 + `/api/v1/mentorships/${table_id}`, {
@@ -174,7 +175,7 @@ const Admin = () => {
       setStatus("");
       setMentorEmail("");
       // リロード処理
-      window.location.reload();
+      // window.location.reload();
     } catch (error: unknown) {
       // エラー処理...
       localStorage.removeItem("email"); // emailの削除

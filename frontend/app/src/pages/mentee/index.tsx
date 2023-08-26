@@ -126,8 +126,17 @@ const LearningRecordsPage = () => {
                 <InputLabel>言語</InputLabel>
                 <Select value={selectedLanguage} onChange={(e) => setSelectedLanguage(e.target.value)}>
                   <MenuItem value="">選択してください</MenuItem>
-                  <MenuItem value="next.js">next.js</MenuItem>
-                  <MenuItem value="react">react</MenuItem>
+                  <MenuItem value="JavaScript">JavaScript</MenuItem>
+                  <MenuItem value="TypeScript">TypeScript</MenuItem>
+                  <MenuItem value="HTML">HTML</MenuItem>
+                  <MenuItem value="CSS">CSS</MenuItem>
+                  <MenuItem value="Next">Next</MenuItem>
+                  <MenuItem value="React">React</MenuItem>
+                  <MenuItem value="Vue">Vue</MenuItem>
+                  <MenuItem value="Nuxt">Nuxt</MenuItem>
+                  <MenuItem value="Python">Python</MenuItem>
+                  <MenuItem value="Ruby on Rails">Ruby on Rails</MenuItem>
+                  <MenuItem value="Go">Go</MenuItem>
                 </Select>
               </FormControl>
             </div><br/>
