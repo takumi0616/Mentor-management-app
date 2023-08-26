@@ -78,8 +78,16 @@ const SignUp = () => {
                 setIsError(true);
                 setErrorMessage("Mentorship registration failed: " + error.response.data.errors.full_messages[0]);
             });
+          }else {
+            // メンターとしての登録が成功した場合の処理
+            router.push("/login");
           }
-        }
+          })
+          .catch(function (error) {
+              setIsError(true);
+              // こちらでエラーメッセージの具体的な内容も取得できるようにしました
+              setErrorMessage(error.response?.data?.errors?.full_messages[0] || "Registration failed.");
+          }
         )
     })();
   };
