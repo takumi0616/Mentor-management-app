@@ -19,7 +19,7 @@ import {
   Table,
   Stack
 } from "@mui/material/";
-import axios from "axios";
+import axios from "axios";//HTTPリクエストを簡単に作成できる
 import Cookies from "js-cookie";
 import  Link  from "next/link"; // Next.js の Link コンポーネントをインポート
 
